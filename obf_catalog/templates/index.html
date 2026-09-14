@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<p>{{ site_description }}</p>
+
+{% if not badges %}
+<p>公開中のバッジはありません。</p>
+{% else %}
+<ul>
+  {% for badge in badges %}
+  <li>
+    <a href="{{ badge.page }}">
+      {% if badge.image_src %}
+      <img src="{{ badge.image_src }}" alt="{{ badge.name }}" width="120" height="120">
+      {% endif %}
+      {{ badge.name }}
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

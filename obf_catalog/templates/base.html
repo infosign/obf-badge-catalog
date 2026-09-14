@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{{ site_title }}{% endblock %}</title>
+</head>
+<body>
+
+<h1>{% block heading %}{{ site_title }}{% endblock %}</h1>
+
+{% block content %}{% endblock %}
+
+<hr>
+<p><small>バッジ情報は Open Badge Factory の API から生成しています。</small></p>
+
+</body>
+</html>

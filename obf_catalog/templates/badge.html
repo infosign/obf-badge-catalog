@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}{{ badge.name }} | {{ site_title }}{% endblock %}
+{% block heading %}{{ badge.name }}{% endblock %}
+{% block content %}
+<p><a href="index.html">← 一覧へ戻る</a></p>
+
+{% if badge.image_src %}
+<p><img src="{{ badge.image_src }}" alt="{{ badge.name }}" width="200" height="200"></p>
+{% endif %}
+
+{% if badge.description %}
+<p>{{ badge.description }}</p>
+{% endif %}
+
+<dl>
+  {% if badge.categories %}
+  <dt>カテゴリ</dt>
+  <dd>{{ badge.categories | join('、') }}</dd>
+  {% endif %}
+  {% if badge.tags %}
+  <dt>タグ</dt>
+  <dd>{{ badge.tags | join('、') }}</dd>
+  {% endif %}
+  {% if badge.expires %}
+  <dt>有効期間</dt>
+  <dd>{{ badge.expires }} 日</dd>
+  {% endif %}
+  {% if badge.criteria_url %}
+  <dt>認定基準 URL</dt>
+  <dd><a href="{{ badge.criteria_url }}">{{ badge.criteria_url }}</a></dd>
+  {% endif %}
+  <dt>バッジ ID</dt>
+  <dd><code>{{ badge.id }}</code></dd>
+</dl>
+
+{% if badge.criteria_html %}
+<h2>認定基準</h2>
+{# OBF 側で編集された HTML をそのまま埋め込む。自組織のデータを信頼する前提。 #}
+{{ badge.criteria_html | safe }}
+{% endif %}
+{% endblock %}

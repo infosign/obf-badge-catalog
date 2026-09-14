@@ -1,0 +1,48 @@
+[
+  {
+    "id": "sample0001",
+    "name": "情報セキュリティ基礎",
+    "description": "組織内の情報セキュリティ研修（基礎編）を修了した者に発行されます。",
+    "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAIAAAC2BqGFAAAA60lEQVR4nO3QAQkAIADAMJsY0eCWsIXCHTzA2Zhr60Lj+cEngQbdCjToVqBBtwINuhVo0K1Ag24FGnQr0KBbgQbdCjToVqBBtwINuhVo0K1Ag24FGnQr0KBbgQbdCjToVqBBtwINuhVo0K1Ag24FGnQr0KBbgQbdCjToVqBBtwINuhVo0K1Ag24FGnQr0KBbgQbdCjToVqBBtwINuhVo0K1Ag24FGnQr0KBbgQbdCjToVqBBtwINuhVo0K1Ag24FGnQr0KBbgQbdCjToVqBBtwINuhVo0K1Ag24FGnQr0KBbgQbdCjToVqBBtzomYtsPmVy4LgAAAABJRU5ErkJggg==",
+    "tags": [
+      "研修",
+      "セキュリティ"
+    ],
+    "category": [
+      "社内研修"
+    ],
+    "expires": 365,
+    "criteria": "https://example.org/badges/infosec-basic",
+    "criteria_html": "<p>以下をすべて満たすこと。</p><ul><li>eラーニング全4章の受講</li><li>確認テスト 80 点以上</li></ul>",
+    "draft": 0
+  },
+  {
+    "id": "sample0002",
+    "name": "データ分析入門",
+    "description": "表計算と基礎統計を用いた業務データの分析ができる。",
+    "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAIAAAC2BqGFAAAA60lEQVR4nO3QAQkAIADAMFMY01IWtYXCHTzA2Zh76ULj+cEngQbdCjToVqBBtwINuhVo0K1Ag24FGnQr0KBbgQbdCjToVqBBtwINuhVo0K1Ag24FGnQr0KBbgQbdCjToVqBBtwINuhVo0K1Ag24FGnQr0KBbgQbdCjToVqBBtwINuhVo0K1Ag24FGnQr0KBbgQbdCjToVqBBtwINuhVo0K1Ag24FGnQr0KBbgQbdCjToVqBBtwINuhVo0K1Ag24FGnQr0KBbgQbdCjToVqBBtwINuhVo0K1Ag24FGnQr0KBbgQbdCjToVqBBtzqOx9WBvqJRdgAAAABJRU5ErkJggg==",
+    "tags": [
+      "データ"
+    ],
+    "category": [
+      "社内研修"
+    ],
+    "criteria_html": "<p>課題提出とレビュー合格をもって認定する。</p>",
+    "draft": 0
+  },
+  {
+    "id": "sample0003",
+    "name": "オープンバッジ推進リーダー",
+    "description": "組織内でのオープンバッジ導入を主導した実績を認定します。",
+    "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAIAAAC2BqGFAAAA60lEQVR4nO3QAQkAIADAMEMY16aWsYXCHTzA2dhr6kLj+cEngQbdCjToVqBBtwINuhVo0K1Ag24FGnQr0KBbgQbdCjToVqBBtwINuhVo0K1Ag24FGnQr0KBbgQbdCjToVqBBtwINuhVo0K1Ag24FGnQr0KBbgQbdCjToVqBBtwINuhVo0K1Ag24FGnQr0KBbgQbdCjToVqBBtwINuhVo0K1Ag24FGnQr0KBbgQbdCjToVqBBtwINuhVo0K1Ag24FGnQr0KBbgQbdCjToVqBBtwINuhVo0K1Ag24FGnQr0KBbgQbdCjToVqBBtzqVT8diLVHZpAAAAABJRU5ErkJggg==",
+    "tags": [
+      "リーダーシップ",
+      "デジタル証明"
+    ],
+    "category": [
+      "表彰"
+    ],
+    "criteria_html": "<p>推進委員会の推薦による。</p>",
+    "draft": 0
+  }
+]
