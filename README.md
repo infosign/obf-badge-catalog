@@ -135,4 +135,6 @@ python -m pytest tests
 
 ## ライセンス
 
-MIT
+MIT License / Copyright (c) 2026 Infosign, Inc.
+
+詳細は [LICENSE](LICENSE) を参照してください。
