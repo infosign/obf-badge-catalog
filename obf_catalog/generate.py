@@ -38,6 +38,16 @@ def badge_page_name(badge: dict[str, Any]) -> str:
     return f"badge-{slugify(str(badge.get('id', '')))}.html"
 
 
+def to_timestamp(value: Any) -> int:
+    """OBF の ctime / mtime を秒単位の整数に揃える。取れなければ 0。"""
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return 0
+    # 1e12 を超える値はミリ秒とみなす
+    return int(number / 1000) if number > 1e12 else int(number)
+
+
 def normalize(badge: dict[str, Any]) -> dict[str, Any]:
     """テンプレートが扱いやすい形に整える。"""
     tags = badge.get("tags") or []
@@ -47,17 +57,24 @@ def normalize(badge: dict[str, Any]) -> dict[str, Any]:
     if isinstance(categories, str):
         categories = [categories]
 
+    name = badge.get("name") or "(名称未設定)"
+    description = badge.get("description") or ""
+
     return {
         **badge,
         "id": str(badge.get("id", "")),
-        "name": badge.get("name") or "(名称未設定)",
-        "description": badge.get("description") or "",
+        "name": name,
+        "description": description,
         "criteria_html": badge.get("criteria_html") or "",
         "criteria_url": badge.get("criteria") or badge.get("criteria_url") or "",
         "tags": list(tags),
         "categories": list(categories),
         "page": badge_page_name(badge),
         "image_src": badge.get("image") or "",
+        "ctime": to_timestamp(badge.get("ctime")),
+        "mtime": to_timestamp(badge.get("mtime")),
+        # 一覧ページの絞り込みで JavaScript が参照する検索対象テキスト
+        "search_text": " ".join([name, description, *tags, *categories]).lower(),
     }
 
 
@@ -136,7 +153,8 @@ def render_site(
             encoding="utf-8",
         )
 
-    shutil.copyfile(TEMPLATE_DIR / "style.css", out_dir / "style.css")
+    for asset in ("style.css", "catalog.js"):
+        shutil.copyfile(TEMPLATE_DIR / asset, out_dir / asset)
     return prepared
 
 

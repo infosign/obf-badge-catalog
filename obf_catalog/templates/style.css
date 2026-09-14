@@ -64,6 +64,54 @@ nav a:hover { text-decoration: underline; }
 
 /* ---------------------------------------------------------------- 一覧ページ */
 
+#controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem 2rem;
+  align-items: center;
+  margin: 2rem 0 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: .75rem;
+}
+
+#controls p {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin: 0;
+}
+
+#controls label {
+  color: var(--muted);
+  font-size: .85rem;
+  white-space: nowrap;
+}
+
+input, select {
+  font: inherit;
+  font-size: .9rem;
+  color: inherit;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: .4rem;
+  padding: .35rem .6rem;
+}
+
+input:focus-visible, select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+input[type="search"] { min-width: 14rem; }
+
+#status {
+  margin: 0;
+  color: var(--muted);
+  font-size: .85rem;
+}
+
 #badges {
   list-style: none;
   margin: 2.5rem 0 0;
@@ -149,6 +197,9 @@ small { color: var(--muted); }
 
 @media (max-width: 30rem) {
   body { padding-top: 2rem; }
+  #controls { flex-direction: column; align-items: stretch; }
+  #controls p { justify-content: space-between; }
+  input[type="search"] { min-width: 0; flex: 1; }
   dl { grid-template-columns: 1fr; gap: 0 0; }
   dt { margin-top: .75rem; }
 }

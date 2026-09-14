@@ -14,7 +14,9 @@
     "expires": 365,
     "criteria": "https://example.org/badges/infosec-basic",
     "criteria_html": "<p>以下をすべて満たすこと。</p><ul><li>eラーニング全4章の受講</li><li>確認テスト 80 点以上</li></ul>",
-    "draft": 0
+    "draft": 0,
+    "ctime": 1704067200,
+    "mtime": 1735689600
   },
   {
     "id": "sample0002",
@@ -28,7 +30,9 @@
       "社内研修"
     ],
     "criteria_html": "<p>課題提出とレビュー合格をもって認定する。</p>",
-    "draft": 0
+    "draft": 0,
+    "ctime": 1717200000,
+    "mtime": 1717200000
   },
   {
     "id": "sample0003",
@@ -43,6 +47,8 @@
       "表彰"
     ],
     "criteria_html": "<p>推進委員会の推薦による。</p>",
-    "draft": 0
+    "draft": 0,
+    "ctime": 1688169600,
+    "mtime": 1751328000
   }
 ]

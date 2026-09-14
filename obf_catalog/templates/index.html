@@ -5,9 +5,30 @@
 {% if not badges %}
 <p>公開中のバッジはありません。</p>
 {% else %}
+{# JavaScript が無効な環境では絞り込み UI を出さない。一覧は名前の昇順で静的に並んでいる #}
+<form id="controls" hidden>
+  <p>
+    <label for="q">絞り込み</label>
+    <input type="search" id="q" placeholder="バッジ名・説明・タグ" autocomplete="off">
+  </p>
+  <p>
+    <label for="sort">並び替え</label>
+    <select id="sort">
+      <option value="name-asc">名前（昇順）</option>
+      <option value="name-desc">名前（降順）</option>
+      <option value="ctime-desc">作成日（新しい順）</option>
+      <option value="ctime-asc">作成日（古い順）</option>
+      <option value="mtime-desc">更新日（新しい順）</option>
+      <option value="mtime-asc">更新日（古い順）</option>
+    </select>
+  </p>
+</form>
+
+<p id="status" role="status" hidden></p>
+
 <ul id="badges">
   {% for badge in badges %}
-  <li>
+  <li data-search="{{ badge.search_text }}" data-name="{{ badge.name }}" data-ctime="{{ badge.ctime }}" data-mtime="{{ badge.mtime }}">
     <a href="{{ badge.page }}">
       {% if badge.image_src %}
       <img src="{{ badge.image_src }}" alt="{{ badge.name }}" width="120" height="120">
@@ -18,4 +39,8 @@
   {% endfor %}
 </ul>
 {% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script src="catalog.js"></script>
 {% endblock %}
