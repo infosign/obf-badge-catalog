@@ -5,7 +5,7 @@
 {% if not badges %}
 <p>公開中のバッジはありません。</p>
 {% else %}
-<ul>
+<ul id="badges">
   {% for badge in badges %}
   <li>
     <a href="{{ badge.page }}">

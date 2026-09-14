@@ -37,13 +37,24 @@ class OBFClient:
     # ------------------------------------------------------------------ auth
 
     @classmethod
-    def from_env(cls) -> "OBFClient":
-        """環境変数 (OBF_CLIENT_ID / OBF_CLIENT_SECRET / OBF_API_BASE) から生成する。"""
+    def from_env(cls, env_file: str | os.PathLike[str] | None = None) -> "OBFClient":
+        """環境変数 (OBF_CLIENT_ID / OBF_CLIENT_SECRET / OBF_API_BASE) から生成する。
+
+        カレントディレクトリから遡って `.env` を探し、あれば読み込む。
+        すでに設定済みの環境変数は上書きしない（CI の Secrets を優先させるため）。
+        """
+        try:
+            from dotenv import load_dotenv
+        except ImportError:  # .env を使わず環境変数だけで運用する場合は無くてもよい
+            if env_file:
+                raise OBFError("--env-file を使うには python-dotenv が必要です") from None
+        else:
+            load_dotenv(dotenv_path=env_file, override=False)
         client_id = os.environ.get("OBF_CLIENT_ID")
         client_secret = os.environ.get("OBF_CLIENT_SECRET")
         if not client_id or not client_secret:
             raise OBFError(
-                "OBF_CLIENT_ID と OBF_CLIENT_SECRET を環境変数に設定してください "
+                "OBF_CLIENT_ID と OBF_CLIENT_SECRET を .env か環境変数に設定してください "
                 "(.env.example を参照)"
             )
         return cls(

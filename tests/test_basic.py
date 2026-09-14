@@ -40,10 +40,10 @@ def test_render_site_from_sample_data(tmp_path: Path):
         site_title="テスト",
         site_description="説明",
         client=None,
-        download_images=True,
     )
     assert len(prepared) == len(badges)
     index = (tmp_path / "index.html").read_text(encoding="utf-8")
     for badge in prepared:
         assert badge["page"] in index
         assert (tmp_path / badge["page"]).exists()
+    assert (tmp_path / "style.css").exists()

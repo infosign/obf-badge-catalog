@@ -2,10 +2,10 @@
 {% block title %}{{ badge.name }} | {{ site_title }}{% endblock %}
 {% block heading %}{{ badge.name }}{% endblock %}
 {% block content %}
-<p><a href="index.html">← 一覧へ戻る</a></p>
+<nav><a href="index.html">← 一覧へ戻る</a></nav>
 
 {% if badge.image_src %}
-<p><img src="{{ badge.image_src }}" alt="{{ badge.name }}" width="200" height="200"></p>
+<figure><img src="{{ badge.image_src }}" alt="{{ badge.name }}" width="200" height="200"></figure>
 {% endif %}
 
 {% if badge.description %}

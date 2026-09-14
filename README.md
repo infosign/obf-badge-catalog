@@ -6,13 +6,14 @@ Open Badge Factory (OBF) の REST API からバッジ情報を取得し、
 - 一覧ページ (`index.html`): バッジ画像とタイトルが並ぶ
 - 詳細ページ (`badge-<id>.html`): クリックすると API で取得した説明・カテゴリ・タグ・有効期間・認定基準を表示
 
-出力は CSS を含まない素の HTML です。
-既存サイトのデザインに合わせる前提で、テンプレートに手を入れて使ってください。
+HTML は class 属性を使わないシンプルな構造で、見た目は要素セレクタだけで書いた
+`style.css` が担っています。既存サイトのデザインに合わせるときは、
+CSS を差し替えるか `<link>` を自社の CSS に向けるだけで済みます。
 
 ## 必要なもの
 
 - Python 3.10 以上
-- `requests`, `Jinja2`
+- `requests`, `Jinja2`, `python-dotenv`
 
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
@@ -26,8 +27,13 @@ OBF の管理画面（Admin tools > API key）で発行した API key から得�
 
 ```bash
 cp .env.example .env      # 中身を編集
-export $(grep -v '^#' .env | xargs)
 ```
+
+`.env` はカレントディレクトリから上位へ遡って自動的に読み込まれます
+（`--env-file` で明示指定も可）。
+すでに設定済みの環境変数は上書きしないため、GitHub Actions などで
+Secrets を環境変数として渡す運用でもそのまま動きます。
+`.env` は `.gitignore` に入れてあります。コミットしないでください。
 
 このスクリプトは `client_id` / `client_secret` を
 `POST /v1/client/oauth2/token` でアクセストークンに交換し、
@@ -60,9 +66,9 @@ python -m http.server -d dist 8000
 | `--out DIR` | 出力ディレクトリ（既定 `dist`） |
 | `--input FILE` | API の代わりに読み込む JSON ファイル |
 | `--dump FILE` | API から取得した JSON を保存する（次回以降 `--input` で再利用できる） |
+| `--env-file FILE` | 読み込む `.env` のパス |
 | `--category NAME` | 指定カテゴリのバッジだけに絞る |
 | `--include-drafts` | 下書きバッジも含める（既定は除外） |
-| `--no-images` | 画像をローカルに保存せず、API の URL / data URI を直接参照する |
 | `--title` / `--description` | ページのタイトルとリード文 |
 
 ## 使用している API
@@ -85,15 +91,22 @@ obf_catalog/
     base.html            全ページ共通の骨組み
     index.html           一覧ページ
     badge.html           詳細ページ
+    style.css            スタイル（生成時に出力先へコピーされる）
 sample_data/badges.json  API を叩かずに試すためのダミーデータ
 tests/test_basic.py      最小限の回帰テスト
 ```
 
 ## カスタマイズの勘所
 
-- **見た目**: `templates/*.html` を編集します。`base.html` に `<link rel="stylesheet">` を足せば既存サイトの CSS をそのまま適用できます。
+- **見た目**: `templates/style.css` を編集します。HTML 側には class を置かず、要素セレクタだけでスタイルを当てています（例外は一覧のグリッドに使う `#badges` のみ）。既存サイトの CSS に載せ替える場合は `base.html` の `<link>` を差し替えてください。ダークモードは `prefers-color-scheme` で自動的に切り替わります。
 - **項目の増減**: `generate.py` の `normalize()` で API の応答をテンプレート向けに整えています。表示したいフィールドはここで足します。
 - **認定基準 HTML**: `criteria_html` は OBF 側で編集された HTML をエスケープせず埋め込んでいます（`badge.html` の `| safe`）。自組織のデータを信頼する前提なので、外部から取り込んだバッジを混ぜる場合はサニタイズを検討してください。
+
+## 画像の扱い
+
+バッジ画像は必ず `dist/assets/` へ保存し、HTML からは相対パスで参照します。
+OBF 上の画像 URL を直接埋め込むと、公開後の表示が OBF 側の設定に依存してしまうためです。
+生成物一式をそのまま配布・設置できる状態を保っています。
 
 ## テスト
 

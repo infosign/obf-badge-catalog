@@ -11,6 +11,7 @@ import argparse
 import base64
 import json
 import re
+import shutil
 import sys
 from pathlib import Path
 from typing import Any, Iterable
@@ -104,7 +105,6 @@ def render_site(
     site_title: str,
     site_description: str,
     client: OBFClient | None,
-    download_images: bool,
 ) -> list[dict[str, Any]]:
     env = build_env()
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -112,10 +112,9 @@ def render_site(
     prepared: list[dict[str, Any]] = []
     for raw in badges:
         badge = normalize(raw)
-        if download_images:
-            local = save_image(raw, out_dir / "assets", client)
-            if local:
-                badge["image_src"] = local
+        local = save_image(raw, out_dir / "assets", client)
+        if local:
+            badge["image_src"] = local
         prepared.append(badge)
 
     prepared.sort(key=lambda b: b["name"])
@@ -137,6 +136,7 @@ def render_site(
             encoding="utf-8",
         )
 
+    shutil.copyfile(TEMPLATE_DIR / "style.css", out_dir / "style.css")
     return prepared
 
 
@@ -149,7 +149,7 @@ def load_badges(args: argparse.Namespace) -> tuple[list[dict[str, Any]], OBFClie
         badges = data if isinstance(data, list) else data.get("badges", [])
         return badges, None
 
-    client = OBFClient.from_env()
+    client = OBFClient.from_env(env_file=args.env_file)
     listed = client.list_badges(draft=0 if not args.include_drafts else None, category=args.category)
     badges = list(client.iter_badge_details(listed))
     if args.dump:
@@ -164,9 +164,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--out", default="dist", help="出力ディレクトリ (既定: dist)")
     parser.add_argument("--input", help="API の代わりに読み込む JSON ファイル")
     parser.add_argument("--dump", help="API から取得した JSON をこのパスへ保存する")
+    parser.add_argument("--env-file", help="読み込む .env のパス (既定: 上位ディレクトリを探索)")
     parser.add_argument("--category", help="このカテゴリのバッジだけに絞る")
     parser.add_argument("--include-drafts", action="store_true", help="下書きバッジも含める")
-    parser.add_argument("--no-images", action="store_true", help="画像をローカルへ保存しない")
     parser.add_argument("--title", default="オープンバッジカタログ", help="サイトタイトル")
     parser.add_argument(
         "--description",
@@ -188,7 +188,6 @@ def main(argv: list[str] | None = None) -> int:
         site_title=args.title,
         site_description=args.description,
         client=client,
-        download_images=not args.no_images,
     )
     print(f"{len(prepared)} 件のバッジを {out_dir}/ に生成しました。")
     return 0
